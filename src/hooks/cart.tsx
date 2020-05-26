@@ -49,21 +49,21 @@ const CartProvider: React.FC = ({ children }) => {
 
         productWithQuantity[productExist].quantity += 1;
 
+        setProducts([...productWithQuantity]);
         await AsyncStorage.setItem(
           '@GoMarketPlace:cart',
           JSON.stringify([...productWithQuantity]),
         );
-        setProducts([...productWithQuantity]);
       } else {
         const productWithQuantity = product;
 
         productWithQuantity.quantity = 1;
 
+        setProducts([...products, productWithQuantity]);
         await AsyncStorage.setItem(
           '@GoMarketPlace:cart',
           JSON.stringify([...products, productWithQuantity]),
         );
-        setProducts([...products, productWithQuantity]);
       }
     },
     [products],
@@ -78,11 +78,11 @@ const CartProvider: React.FC = ({ children }) => {
 
         product[productExist].quantity += 1;
 
+        setProducts([...product]);
         await AsyncStorage.setItem(
           '@GoMarketPlace:cart',
           JSON.stringify([...product]),
         );
-        setProducts([...product]);
       }
     },
     [products],
@@ -93,16 +93,16 @@ const CartProvider: React.FC = ({ children }) => {
       const productExist = products.findIndex(product => product.id === id);
 
       if (productExist >= 0) {
-        if (products[productExist].quantity > 1) {
+        if (products[productExist].quantity >= 1) {
           const product = products;
 
           product[productExist].quantity -= 1;
 
+          setProducts([...product]);
           await AsyncStorage.setItem(
             '@GoMarketPlace:cart',
             JSON.stringify([...product]),
           );
-          setProducts([...product]);
         }
       }
     },
